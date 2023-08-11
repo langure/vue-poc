@@ -1,20 +1,29 @@
 <template>
   <div>
-    
+    <h1>{{ msg }}</h1>
     <div>
+
     <h1>Featured Products</h1>
     <ul v-if="loading">
       <li>Loading...</li>
     </ul>
     <ul v-else>
-      <li v-for="product in featuredProducts" :key="product.id">{{ product.name }}</li>
+
+    <li v-for="(product, index) in featuredProducts.products" :key="index">
+    <ul>{{ product.id }} </ul>
+    <ul>{{ product.name }} </ul>
+    <ul>{{ product.sku }} </ul>
+    <HR></HR>
+    </li>
     </ul>
   </div>
+
 
   </div>
 </template>
 
 <script>
+// Import this service to make API calls
 import apiService from '@/services/services';
 
 export default {
@@ -35,7 +44,7 @@ export default {
     getFeaturedProducts() {
       apiService.getFeaturedProducts()
         .then(response => {
-          console.log(response.data);
+          console.log('Featured products:', response.data);
           this.featuredProducts = response.data;
         })
         .catch(error => {
@@ -44,26 +53,7 @@ export default {
         .finally(() => {
           this.loading = false;
         });
-  }// methods   
-
+  }// get featured products   
 } // methods
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
